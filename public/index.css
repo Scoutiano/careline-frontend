@@ -1,0 +1,146 @@
+#root {
+    background-image: url("images/background.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    position: relative;
+    overflow: auto;
+}
+
+.priority {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+.ticket-action {
+    border-radius: 5px;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+#ticket-card {
+    border-bottom: 15px black;
+}
+
+#footer {
+    background-color: rgb(26, 26, 26);
+    bottom: 0;
+    color: #707070;
+    line-height: 2em;
+    padding: 0.5em 0;
+    position: absolute;
+    font-size: small;
+    width:100%;
+}
+
+#login-error {
+    color: red;
+}
+
+.card-title {
+    font-size: 1.3em;
+}
+
+.card-text {
+    color:rgb(78, 78, 78);
+}
+
+.card-body {
+    display: flex;
+}
+
+.ticket-content {
+    flex: 90%;
+}
+
+.ticket-action {
+    flex: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.status {
+    background-color: gray;
+    font-size: 0.8em;
+    font-weight: bold;
+    color: white;
+    padding-top: 0.5em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    margin-left: 1em;
+    margin-bottom:0.5em; 
+    border-radius: 5px;
+    width: fit-content;
+    height: fit-content;
+    display: flex-end;
+}
+
+.title-status {
+    display: flex;
+}
+
+.ticket-card:hover {
+    cursor: pointer;
+}
+
+#ticket-list {
+    margin-bottom: 80vh;
+}
+
+#login-form-container {
+    margin-bottom: 80vh;
+}
+
+#ticket-view-container {
+    margin-bottom: 80vh;
+}
+
+#ticket-search {
+    background-color: white;
+    margin-bottom: 3em;
+    min-height: 6vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    border-radius: 3px;
+}
+
+#ticket-view-container {
+    border-radius: 3px;
+    width: calc(100% - 32px);
+    margin-left: 100px;
+    margin-right: 100px;
+    margin: 1.1em;
+}
+
+.check-filter {
+    margin-left: 5em;
+}
+
+.check-filter>label {
+    margin-top: 0.5em;
+    margin-left: 1.5em;
+}
+
+.check-filter>input {
+    margin-top: 0.6em;
+}
+
+.title-search {
+    margin-left: 1em;
+}
+
+.title-search>input {
+    margin-left: 1em;
+}
+
+
+.ticket-action {
+    max-width: 130px;
+    max-height: 50px;
+    min-width: 130px;
+    min-height: 50px;
+    font-size: 1em;
+}
