@@ -47,7 +47,7 @@ var UserProfile = (function () {
 
   var setId = function (value) {
     id = value;
-    localStorage.setItem("role", value);
+    localStorage.setItem("id", value);
   };
 
   var clear = function () {

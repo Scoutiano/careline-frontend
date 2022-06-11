@@ -1,38 +1,50 @@
 import React from "react";
 import LoginPage from "./components/Auth/login-page";
-import Footer from "./components/footer";
-import TopNav from "./components/top-nav";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import LoginForm from "./components/Auth/login-form";
-import RegistrationForm from "./components/Auth/registration-form";
-import TicketList from "./components/Ticket/ticket-list";
 import TicketPage from "./components/Ticket/ticket-page";
 import LogOut from "./components/Auth/log-out";
-import axios from "axios";
+import RegistrationPage from "./components/Auth/registeration-page";
+import { TicketViewPage } from "./components/Ticket/ticket-view-page";
+import { Home } from "./components/home";
+import ConfirmationPage from "./components/Auth/confirmation-page";
+import Dashboard from "./components/CounselorUI/Dashboard";
+import TicketForm from "./components/Ticket/TicketFormPage/TicketForm";
 
 const App = () => {
   return (
     <Router>
       <div className="App" id="app">
-        <div class="wrapper">
-          <Switch>
-            <Route path="/login">
+        <Switch>
+          <div class="wrapper">
+            <Route path="/" exact>
+              <Home />
+            </Route>
+            <Route path="/home" exact>
+              <Home />
+            </Route>
+            <Route path="/login" exact>
               <LoginPage />
             </Route>
-            <Route path="/logout">
+            <Route path="/logout" exact>
               <LogOut />
             </Route>
-            <Route path="/register">
-              <RegistrationForm />
+            <Route path="/register" exact>
+              <RegistrationPage />
             </Route>
-            <Route path="/tickets">
+            <Route path="/tickets" exact>
               <TicketPage />
             </Route>
-            <Route path="/home">
-              <div></div>
+            <Route path="/ticket" exact>
+              <TicketViewPage />
             </Route>
-          </Switch>
-        </div>
+            <Route path="/register/confirm" exact>
+              <ConfirmationPage />
+            </Route>
+            <Route path="/test" exact>
+              <TicketForm />
+            </Route>
+          </div>
+        </Switch>
       </div>
     </Router>
   );

@@ -6,11 +6,8 @@ import Pagination from "./pagination";
 import TicketSearch from "./ticket-search";
 import TopNav from "../top-nav";
 import { Redirect } from "react-router-dom";
-import { render } from "@testing-library/react";
-import { Router } from "react-router-dom";
 import UserProfile from "../Auth/UserProfile";
 import Footer from "../footer";
-import TicketView from "./ticket-view";
 
 const TicketPage = () => {
   const [tickets, setTickets] = useState([]);
@@ -18,7 +15,6 @@ const TicketPage = () => {
   const [ticketPerPage] = useState(10);
   const [loading, setLoading] = useState(false);
   const [filteredTickets, setFilteredTickets] = useState([]);
-  const [user, setUser] = useState({});
   const [redirect, setRedirect] = useState("");
 
   useEffect(() => {
@@ -80,7 +76,6 @@ const TicketPage = () => {
         />
       </div>
       <Footer />
-      <TicketView />
     </div>
   );
 };

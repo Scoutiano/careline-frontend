@@ -19,11 +19,7 @@ class LoginForm extends React.Component {
   }
 
   async handleLogin(e) {
-    // axios.interceptors.request.use((x) => {
-    //   console.log(x);
-    // });
     e.preventDefault();
-    // const { data } = await axios.get("/user/current");
     const loginInfo = {
       username: e.target.username.value,
       password: e.target.password.value,
@@ -39,10 +35,8 @@ class LoginForm extends React.Component {
       },
     })
       .then(async function (response) {
-        console.log(response);
         const { data } = await axios.get("/user/current");
 
-        console.log("Response: ", response);
         UserProfile.setEmail(data.email);
         UserProfile.setUsername(data.username);
         UserProfile.setRole(data.role);
@@ -51,7 +45,6 @@ class LoginForm extends React.Component {
         toRedirect = "/home";
       })
       .catch(function (error) {
-        console.log("Error: ", error);
         if (error.response.status === 401) {
           hasError = true;
         }
@@ -70,7 +63,7 @@ class LoginForm extends React.Component {
       return <Redirect to={this.state.redirect} />;
     }
     return (
-      <div class="container" id="login-form-container">
+      <div class="container data-container" id="login-form-container">
         <div class="row justify-content-center">
           <div class="col-lg-5">
             <div class="card shadow-lg border-0 rounded-lg mt-5">

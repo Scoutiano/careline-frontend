@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
-import UserProfile from "../Auth/UserProfile";
+import UserProfile from "./UserProfile";
 
 const LogOut = () => {
   const [redirect, setRedirect] = useState("");
@@ -15,11 +15,9 @@ const LogOut = () => {
     axios.get("/logout");
     UserProfile.clear();
     setRedirect("/login");
-    console.log(redirect);
   };
 
   if (redirect !== "") {
-    console.log(redirect);
     return <Redirect to={redirect} />;
   }
 };

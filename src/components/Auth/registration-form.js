@@ -27,12 +27,8 @@ class RegistrationForm extends React.Component {
         "Content-Type": "application/json",
       },
     })
-      .then(function (response) {
-        console.log(response.status);
-      })
+      .then(function (response) {})
       .catch(function (error) {
-        console.log(error);
-        console.log(error.response.data);
         if (error.response.status === 500) {
           msg = error.response.data;
           hasError = true;
@@ -46,7 +42,7 @@ class RegistrationForm extends React.Component {
 
   render() {
     return (
-      <div class="container">
+      <div class="container data-container">
         <div class="row justify-content-center">
           <div class="col-lg-5">
             <div class="card shadow-lg border-0 rounded-lg mt-5">

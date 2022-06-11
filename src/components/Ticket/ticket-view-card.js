@@ -96,8 +96,8 @@ function TicketCard(props) {
   }
 
   return (
-    <div class="col-md-12 ticket-card">
-      <div class="card mb-3" onClick={() => openTicketView()}>
+    <div class="ticket-view-card">
+      <div class="card mb-3">
         <div class="card-body">
           <div class="ticket-content">
             <div class="title-status">
