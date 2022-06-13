@@ -1,0 +1,25 @@
+.navbar-brand {
+    font-weight: bold;
+}
+
+.menu-bars {
+    margin-left: 2rem;
+    font-size: 2rem;
+    background: none;
+}
+
+.careLine {
+    font-size: 3rem;
+    margin: 3px;
+    color: cornsilk;
+}
+
+.sidebarStyle {
+    background-color: rgb(153, 153, 224);
+}
+
+.header {
+    display: flex;
+
+    column-gap: 30px;
+}

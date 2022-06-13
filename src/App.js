@@ -1,52 +1,59 @@
 import React from "react";
-import LoginPage from "./components/Auth/login-page";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import TicketPage from "./components/Ticket/ticket-page";
-import LogOut from "./components/Auth/log-out";
-import RegistrationPage from "./components/Auth/registeration-page";
-import { TicketViewPage } from "./components/Ticket/ticket-view-page";
-import { Home } from "./components/home";
-import ConfirmationPage from "./components/Auth/confirmation-page";
-import Dashboard from "./components/CounselorUI/Dashboard";
-import TicketForm from "./components/Ticket/TicketFormPage/TicketForm";
+import LoginPage from "./Common/Authentication/Login/LoginPage";
+import LogOut from "./Common/Authentication/Login/log-out";
+import RegistrationPage from "./Common/Authentication/Registration/registeration-page";
+import TicketPage from "./Common/Ticket/TicketPage/TicketPage";
+import ConfirmationPage from "./Common/Authentication/Registration/confirmation-page";
+import TicketForm from "./Common/Ticket/TicketFormPage/TicketForm";
+import { TicketViewPage } from "./Common/Ticket/TicketViewPage/TicketViewPage";
+import { Home } from "./Common/Home/Home";
+import Schedule from "./Counselor/Schedule/Schedule";
+import { SchedulePage } from "./Counselor/Schedule/SchedulePage";
 
 const App = () => {
   return (
-    <Router>
-      <div className="App" id="app">
-        <Switch>
-          <div class="wrapper">
-            <Route path="/" exact>
-              <Home />
-            </Route>
-            <Route path="/home" exact>
-              <Home />
-            </Route>
-            <Route path="/login" exact>
-              <LoginPage />
-            </Route>
-            <Route path="/logout" exact>
-              <LogOut />
-            </Route>
-            <Route path="/register" exact>
-              <RegistrationPage />
-            </Route>
-            <Route path="/tickets" exact>
-              <TicketPage />
-            </Route>
-            <Route path="/ticket" exact>
-              <TicketViewPage />
-            </Route>
-            <Route path="/register/confirm" exact>
-              <ConfirmationPage />
-            </Route>
-            <Route path="/test" exact>
-              <TicketForm />
-            </Route>
-          </div>
-        </Switch>
-      </div>
-    </Router>
+    <>
+      <Router>
+        {/* <SideBar /> */}
+        <div className="App" id="app">
+          <Switch>
+            <div class="wrapper">
+              <Route path="/" exact>
+                <LoginPage />
+              </Route>
+              <Route path="/home" exact>
+                <Home />
+              </Route>
+              <Route path="/login" exact>
+                <LoginPage />
+              </Route>
+              <Route path="/logout" exact>
+                <LogOut />
+              </Route>
+              <Route path="/register" exact>
+                <RegistrationPage />
+              </Route>
+              <Route path="/tickets" exact>
+                <TicketPage />
+              </Route>
+              <Route path="/ticket" exact>
+                <TicketViewPage />
+              </Route>
+              <Route path="/register/confirm" exact>
+                <ConfirmationPage />
+              </Route>
+              <Route path="/sendTicket" exact>
+                <TicketForm />
+              </Route>
+              <Route path="/schedule" exact>
+                <SchedulePage />
+              </Route>
+            </div>
+          </Switch>
+        </div>
+      </Router>
+    </>
   );
 };
 
