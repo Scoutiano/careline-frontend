@@ -8,8 +8,7 @@ import ConfirmationPage from "./Common/Authentication/Registration/confirmation-
 import TicketForm from "./Common/Ticket/TicketFormPage/TicketForm";
 import { TicketViewPage } from "./Common/Ticket/TicketViewPage/TicketViewPage";
 import { Home } from "./Common/Home/Home";
-import Schedule from "./Counselor/Schedule/Schedule";
-import { SchedulePage } from "./Counselor/Schedule/SchedulePage";
+import { SchedulePage } from "./Common/Schedule/SchedulePage";
 
 const App = () => {
   return (
