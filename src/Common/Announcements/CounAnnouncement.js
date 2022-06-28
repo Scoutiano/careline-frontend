@@ -1,16 +1,11 @@
 import { Container, Card, CardGroup, Button, Row, Col } from "react-bootstrap";
 import { Nav } from "react-bootstrap";
 import React, { useEffect } from 'react';
-import './Announcement.css'
+import './CounAnnouncement.css'
 import { FaPlusCircle } from "react-icons/fa";
 
-const Announcement = (props) => {
-    const eventInfo = [
-        { eventTitle: "yes", eventDetails: "B", eventDate: "2022-06-15 15:00", registeredStudents: [] },
-        { eventTitle: "yes", eventDetails: "Bootstrap cards are one of the most used bootstrap components. Cards provide an easy way to align the content with a flexible and extensible container. Cards ...Bootstrap cards are one of the most used ..", eventDate: "13/5/2020", registeredStudents: [] },
-        { eventTitle: "yes", eventDetails: "Bootstrap cards are one of the most used bootstrap components. Cards provide an easy way to align the content with a flexible and extensible container. Cards ...Bootstrap cards are one of the most used bootstrap components. Cards provide an easy way to align the content with a flexible and extensible container. Cards ...", eventDate: "13/5/2020", registeredStudents: [] },
-        { eventTitle: "yes", eventDetails: "Bootstrap cards are one of the most used bootstrap components. Cards provide an easy way to align the content with a flexible and extensible container. Cards ...Bootstrap cards are one of the most used bootstrap components. Cards provide an easy way to align the content with a flexible and extensible container. Cards ...", eventDate: "13/5/2020", registeredStudents: [] },
-    ];
+const CounAnnouncement = (props) => {
+  
     const updteEventStatus = () => {
 
     }
@@ -62,4 +57,4 @@ const Announcement = (props) => {
         </>
     )
 }
-export default Announcement;
+export default CounAnnouncement;

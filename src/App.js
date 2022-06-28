@@ -7,10 +7,10 @@ import TicketPage from "./Common/Ticket/TicketPage/TicketPage";
 import ConfirmationPage from "./Common/Authentication/Registration/confirmation-page";
 import TicketForm from "./Common/Ticket/TicketFormPage/TicketForm";
 import { TicketViewPage } from "./Common/Ticket/TicketViewPage/TicketViewPage";
-import { Home } from "./Common/Home/Home";
 import { SchedulePage } from "./Common/Schedule/SchedulePage";
 import MoreInfoPage from "./Common/Announcements/MoreInfo";
 import EventForm from "./Common/Announcements/EventForm";
+import Home from "./Common/Home/Home";
 
 const App = () => {
   return (
