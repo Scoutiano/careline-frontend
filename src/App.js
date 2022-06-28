@@ -9,6 +9,8 @@ import TicketForm from "./Common/Ticket/TicketFormPage/TicketForm";
 import { TicketViewPage } from "./Common/Ticket/TicketViewPage/TicketViewPage";
 import { Home } from "./Common/Home/Home";
 import { SchedulePage } from "./Common/Schedule/SchedulePage";
+import MoreInfoPage from "./Common/Announcements/MoreInfo";
+import AddEvent from "./Common/Announcements/AddEvent";
 
 const App = () => {
   return (
@@ -21,11 +23,11 @@ const App = () => {
               <Route path="/" exact>
                 <LoginPage />
               </Route>
-              <Route path="/home" exact>
-                <Home />
-              </Route>
               <Route path="/login" exact>
                 <LoginPage />
+              </Route>
+              <Route path="/home" exact>
+                <Home />
               </Route>
               <Route path="/logout" exact>
                 <LogOut />
@@ -47,6 +49,12 @@ const App = () => {
               </Route>
               <Route path="/schedule" exact>
                 <SchedulePage />
+              </Route>
+              <Route path="/moreInfo" exact>
+                <MoreInfoPage />
+              </Route>
+              <Route path="/addevent" exact>
+                <AddEvent />
               </Route>
             </div>
           </Switch>

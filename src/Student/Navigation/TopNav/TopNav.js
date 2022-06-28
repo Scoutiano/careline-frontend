@@ -20,7 +20,7 @@ const TopNav = () => {
         <div className="sidebarStyle">
           <SideBar />
         </div>
-        <Link to="/mainpage">
+        <Link to="/home">
           <p className="careLine">CareLine</p>
         </Link>
 

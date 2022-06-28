@@ -19,7 +19,9 @@
     "npm": "^8.12.1",
     "react": "^18.1.0",
     "react-bootstrap": "^2.4.0",
+    "react-bootstrap-datetimepicker": "^0.0.22",
     "react-calendar": "^3.7.0",
+    "react-datetime-picker": "^3.5.0",
     "react-dom": "^18.1.0",
     "react-icons": "^4.4.0",
     "react-router-dom": "^5.3.3",
@@ -27,7 +29,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "set HTTPS=true&& set SSL_CRT_FILE=C:/Windows/System32/cert.crt&&set SSL_KEY_FILE=C:/Windows/System32/cert.key&&react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
