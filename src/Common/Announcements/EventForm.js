@@ -54,12 +54,14 @@ const EventForm = () => {
             <Col className="p-5">
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="TitleTF">
-                  <Form.Label>Title</Form.Label>
+                  <Form.Label>Event Title</Form.Label>
                   <Form.Control type="text" placeholder="title"></Form.Control>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="ContentTA">
-                  <Form.Label>Content</Form.Label>
-                  <Form.Control as="textarea" rows={3} />
+                  <Form.Label>Event Details</Form.Label>
+                  <Form.Control as="textarea" rows={3} >
+                  
+                  </Form.Control>
                 </Form.Group>
                 <DateTimePickerComponent
                   step={10}

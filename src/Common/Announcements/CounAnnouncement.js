@@ -5,7 +5,7 @@ import './CounAnnouncement.css'
 import { FaPlusCircle } from "react-icons/fa";
 
 const CounAnnouncement = (props) => {
-  
+
     const updteEventStatus = () => {
 
     }
@@ -36,7 +36,6 @@ const CounAnnouncement = (props) => {
         <>
             <CardGroup>
                 <Row xs={1} md={3} classNme='g-4'>
-                    {eventInfo.map(renderEvent)}
                 </Row>
 
                 {/* "Card ms-5 shadow"  */}
