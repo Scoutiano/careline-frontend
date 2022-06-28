@@ -1,0 +1,23 @@
+.mainContainer {
+    display: flex;
+    /* repeat(autofit, minmax(100px, 1fr)); */
+    /* grid-template-columns: 100px 1fr; */
+    /* grid-template-rows: .5fr 4fr 1fr;
+    grid-gap: 1em; */
+    flex-direction: column;
+}
+
+.headerContainer {
+    align-items: flex-start;
+}
+
+.footerContainer {
+    align-items: flex-end;
+}
+
+.grid>* {
+    /* background: lightgray; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -1,4 +1,4 @@
-.navbar-brand {
+/* .navbar-brand {
     font-weight: bold;
 }
 
@@ -6,7 +6,7 @@
     margin-left: 2rem;
     font-size: 2rem;
     background: none;
-}
+} */
 
 .careLine {
     font-size: 3rem;
@@ -19,7 +19,7 @@
 }
 
 .header {
+    background-color: rgb(153, 153, 224);
     display: flex;
-
     column-gap: 30px;
 }
