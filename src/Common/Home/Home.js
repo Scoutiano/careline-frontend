@@ -14,9 +14,9 @@ export const Home = () => {
       <div className={styles.middleContainer}>
         <Announcement />
       </div>
-      <div className={styles.footerContainer}>
+      {/* <div className={styles.footerContainer}>
         <Footer />
-      </div>
+      </div> */}
     </div>
   );
 };
