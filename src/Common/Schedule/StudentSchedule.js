@@ -44,31 +44,26 @@ export default class StudentSchedule extends React.Component {
     this.onAddClick = this.onAddClick.bind(this);
     this.formatDate = this.formatDate.bind(this);
     this.processSelect = this.processSelect.bind(this);
-    this.isSlotAvailable = this.isSlotAvailable.bind(this);
+    // this.isSlotAvailable = this.isSlotAvailable.bind(this);
     this.instance = new Internationalization();
   }
 
-  isSlotAvailable(startTime, endTime) {
-    const data = this.scheduleObj.dataModule.dataManager.dataSource.json;
-    var isSlotAvailable = true;
+  // isSlotAvailable(startTime, endTime) {
+  //   const data = this.scheduleObj.dataModule.dataManager.dataSource.json;
+  //   var isSlotAvailable = true;
 
-    const startDate = this.formatDate(startTime).replace(" ", "T") + ":00";
-    const endDate = this.formatDate(endTime).replace(" ", "T") + ":00";
+  //   const startDate = this.formatDate(startTime).replace(" ", "T") + ":00";
+  //   const endDate = this.formatDate(endTime).replace(" ", "T") + ":00";
 
-    console.log("startDate: ", startDate, " endTime: ", endDate);
-    console.log("Schedule: ", data);
-
-    for (var i = 0; i < data.length; i++) {
-      if (data[i].startTime === startDate && data[i].endTime === endDate) {
-        console.log(data[i].startTime, " ", startDate);
-        isSlotAvailable = false;
-        break;
-      }
-    }
-
-    console.log(isSlotAvailable);
-    return isSlotAvailable;
-  }
+  //   for (var i = 0; i < data.length; i++) {
+  //     if (data[i].startTime === startDate && data[i].endTime === endDate) {
+  //       console.log(data[i].startTime, " ", startDate);
+  //       isSlotAvailable = false;
+  //       break;
+  //     }
+  //   }
+  //   return isSlotAvailable;
+  // }
 
   async componentDidMount() {
     const { data } = await axios
@@ -81,6 +76,7 @@ export default class StudentSchedule extends React.Component {
     const response = await axios.get("/user/counselor").catch(function (error) {
       console.log(error);
     });
+
     this.setState({ counselors: response.data });
   }
 
@@ -133,15 +129,13 @@ export default class StudentSchedule extends React.Component {
 
   async onActionBegin(args) {
     console.log(args.requestType);
-    if (
-      args.requestType === "eventCreate" ||
-      args.requestType === "eventChange"
-    ) {
-      console.log(
-        "Result: ",
-        this.isSlotAvailable(args.data[0].startTime, args.data[0].endTime)
-      );
-      if (!this.isSlotAvailable(args.data[0].startTime, args.data[0].endTime)) {
+    if (args.requestType === "eventCreate") {
+      if (
+        !this.scheduleObj.isSlotAvailable(
+          args.data[0].startTime,
+          args.data[0].endTime
+        )
+      ) {
         console.log("Not available");
         args.cancel = true;
       } else {
@@ -165,15 +159,15 @@ export default class StudentSchedule extends React.Component {
           console.log("Error: " + error);
         });
 
+        console.log(response.data);
         this.scheduleObj.addEvent(response.data);
       }
     }
 
     // Cancel deletion if not owned by student.
     if (args.requestType === "eventRemove") {
-      console.log("Deleting...");
       if (UserProfile.getId() !== args.data[0].createdBy) {
-        console.log("Failed, you do not own this time slot");
+        alert("Failed, you do not own this time slot");
         args.cancel = true;
       } else {
         console.log("ID: ", args.data[0].id);
@@ -192,10 +186,7 @@ export default class StudentSchedule extends React.Component {
     if (args.type === "Editor") {
       const starTime = new Date(args.data.startTime);
       const endTime = new Date(args.data.endTime);
-      console.log(starTime);
-      console.log(endTime);
-      console.log("Result", this.isSlotAvailable(starTime, endTime));
-      if (!this.isSlotAvailable(starTime, endTime)) {
+      if (!this.scheduleObj.isSlotAvailable(starTime, endTime)) {
         console.log("Not free");
         if (args.data.createdBy !== UserProfile.getId()) {
           console.log("Not yours");
@@ -325,19 +316,6 @@ export default class StudentSchedule extends React.Component {
     );
   }
 
-  // eventTemplate(props) {
-  //   return (
-  //     <div className="template-wrap">
-  //       <div className="subject" style={{ background: props.PrimaryColor }}>
-  //         {props.subject}
-  //       </div>
-  //       <div className="subject" style={{ background: props.PrimaryColor }}>
-  //         {" (" + props.priority + ")"}
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
   async processSelect(e) {
     if (e.target.value === -1) {
       const { data } = await axios
@@ -393,7 +371,7 @@ export default class StudentSchedule extends React.Component {
               recurrenceRule: { name: "recurrenceRule" },
             },
             template: this.eventTemplate.bind(this),
-            //   allowEditing: false,
+            allowEditing: false,
             //   allowAdding: false,
             //   allowDeleting: false,
           }}
