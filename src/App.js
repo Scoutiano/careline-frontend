@@ -10,7 +10,7 @@ import { TicketViewPage } from "./Common/Ticket/TicketViewPage/TicketViewPage";
 import { Home } from "./Common/Home/Home";
 import { SchedulePage } from "./Common/Schedule/SchedulePage";
 import MoreInfoPage from "./Common/Announcements/MoreInfo";
-import AddEvent from "./Common/Announcements/AddEvent";
+import EventForm from "./Common/Announcements/EventForm";
 
 const App = () => {
   return (
@@ -54,7 +54,7 @@ const App = () => {
                 <MoreInfoPage />
               </Route>
               <Route path="/addevent" exact>
-                <AddEvent />
+                <EventForm />
               </Route>
             </div>
           </Switch>
