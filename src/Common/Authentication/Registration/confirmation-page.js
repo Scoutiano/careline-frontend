@@ -14,8 +14,10 @@ const ConfirmationPage = () => {
     const query = new URLSearchParams(location.search);
     setToken(query.get("token"));
     if (token !== null) {
+      sendToken();
     }
-    sendToken();
+
+    console.log(token);
   }, [token]);
 
   const sendToken = () => {

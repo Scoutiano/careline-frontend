@@ -1,11 +1,13 @@
 import React from "react";
 import axios from "axios";
+import { Redirect } from "react-router-dom";
 
 class RegistrationForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       errorMsg: "",
+      redirect: null,
     };
     this.handleRegistration = this.handleRegistration.bind(this);
   }
@@ -17,8 +19,10 @@ class RegistrationForm extends React.Component {
       email: e.target.email.value,
       password: e.target.password.value,
     };
+
     var msg = "";
     var hasError = false;
+    var redir = null;
     await axios({
       method: "post",
       url: "/registration",
@@ -27,7 +31,10 @@ class RegistrationForm extends React.Component {
         "Content-Type": "application/json",
       },
     })
-      .then(function (response) {})
+      .then(function (response) {
+        alert("Confirmation email sent! Please check your account.");
+        redir = "/login";
+      })
       .catch(function (error) {
         if (error.response.status === 500) {
           msg = error.response.data;
@@ -38,9 +45,15 @@ class RegistrationForm extends React.Component {
     if (hasError) {
       this.setState({ errorMsg: msg });
     }
+
+    this.setState({ redirect: redir });
   }
 
   render() {
+    if (this.state.redirect !== null) {
+      return <Redirect to={this.state.redirect} />;
+    }
+
     return (
       <div class="container data-container">
         <div class="row justify-content-center">

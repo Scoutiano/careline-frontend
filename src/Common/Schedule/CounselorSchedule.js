@@ -16,7 +16,10 @@ import { registerLicense } from "@syncfusion/ej2-base";
 import { DateTimePickerComponent } from "@syncfusion/ej2-react-calendars";
 import { DropDownListComponent } from "@syncfusion/ej2-react-dropdowns";
 import { extend, L10n, Internationalization } from "@syncfusion/ej2-base";
+import { RecurrenceEditor } from "@syncfusion/ej2-react-schedule";
+import { RecurrenceEditorComponent } from "@syncfusion/ej2-react-schedule";
 import { Form } from "react-bootstrap";
+import RecurrenceRule from "./RecurrenceRule";
 import axios from "axios";
 
 L10n.load({
@@ -50,7 +53,6 @@ export default class CounselorSchedule extends React.Component {
         console.log(error);
       });
     this.setState({ timeslots: data });
-
     const response = await axios.get("/user/counselor").catch(function (error) {
       console.log(error);
     });
@@ -86,21 +88,118 @@ export default class CounselorSchedule extends React.Component {
 
   async onActionBegin(args) {
     if (args.requestType === "eventCreate") {
-      // TODO: Create sessions OR breaks
+      RecurrenceRule.setRead(false);
+
+      if (
+        !this.scheduleObj.isSlotAvailable(
+          args.data[0].startTime,
+          args.data[0].endTime
+        )
+      ) {
+        args.cancel = true;
+      } else {
+        args.data[0].RecurrenceRule = RecurrenceRule.getRecurrenceRule();
+        args.data[0].recurrenceRule = args.data[0].RecurrenceRule;
+        RecurrenceRule.setRecurrenceRule("");
+
+        args.data[0].startTime = this.formatDate(args.data[0].startTime);
+        args.data[0].endTime = this.formatDate(args.data[0].endTime);
+        args.data[0].priority = "NORMAL";
+        args.data[0].counselorId = UserProfile.getId();
+        console.log(args.data[0]);
+
+        console.log("Creation Date: ", args.data[0].creationDate);
+        if (args.data[0].creationDate === undefined) {
+          const response = await axios({
+            method: "post",
+            url: "/timeslot",
+            data: args.data[0],
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }).catch(function (error) {
+            console.log("Error: " + error);
+          });
+
+          console.log(response.data);
+
+          console.log(this.scheduleObj.dataModule.dataManager.dataSource);
+
+          this.scheduleObj.addEvent(response.data);
+        }
+      }
+    }
+
+    console.log(args.requestType);
+    if (args.requestType === "eventChange") {
+      let data = args.data instanceof Array ? args.data[0] : args.data;
+      data.recurrenceRule = null;
+      data.startTime = this.formatDate(data.startTime);
+      data.endTime = this.formatDate(data.endTime);
+      data.RecurrenceRule = RecurrenceRule.getRecurrenceRule();
+      data.recurrenceRule = data.RecurrenceRule;
+      RecurrenceRule.setRecurrenceRule("");
+      data.counselorId = UserProfile.getId();
+      args.cancel = true;
+
+      console.log("Change Data: ", data);
+      const response = await axios({
+        method: "put",
+        url: "/timeslot/" + data.id,
+        data: data,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).catch(function (error) {
+        console.log("Error: " + error);
+      });
+
+      console.log(response.data);
+      this.scheduleObj.saveEvent(response.data);
     }
 
     if (args.requestType === "eventRemove") {
-      // TODO: Remove own breaks & sessions only (Use this.state.selected)
+      console.log("Deleting...");
+      console.log(args.data[0]);
+      console.log(UserProfile.getId());
+      console.log(args.data[0].createdBy);
+      if (UserProfile.getId() !== args.data[0].createdBy) {
+        console.log("Failed, you do not own this time slot");
+        args.cancel = true;
+      } else {
+        console.log("ID: ", args.data[0].id);
+        axios.delete("/timeslot/" + args.data[0].id);
+      }
     }
   }
 
   onPopupOpen(args) {
+    console.log(args);
     if (args.type === "Editor") {
-      // TODO: 1. Allow editor over own breaks only (Use this.state.selected)
-    }
+      console.log(args);
+      if (
+        !this.scheduleObj.isSlotAvailable(
+          args.data.startTime,
+          args.data.endTime
+        ) &&
+        args.data.subject === "Session"
+      ) {
+        args.cancel = true;
+      } else {
+        RecurrenceRule.setRead(true);
+        this.scheduleObj.eventWindow.recurrenceEditor = this.recurrObject;
+      }
 
-    if (args.type === "QuickInfo") {
-      // TODO: All
+      // var formElement = args.element.querySelector(".e-schedule-form");
+      // console.log(formElement);
+      // var validator = formElement.ej2_instances[0];
+
+      // validator.addRules("subject", { required: [true, "Required field"] });
+      // console.log(
+      //   "Recurrence Editor ",
+      //   this.scheduleObj.eventWindow.recurrenceEditor
+      // );
+      // TODO: 1. Allow editor over own breaks only (Use this.state.selected)
     }
   }
 
@@ -113,12 +212,51 @@ export default class CounselorSchedule extends React.Component {
     }
   }
 
+  handleSubjectSelection(e) {
+    if (e.target.value === "Session") {
+      document.getElementById("priority").setAttribute("data-name", "priority");
+      document.getElementById("priority").setAttribute("aria-required", "true");
+      document.getElementById("priority_row").style.visibility = "visible";
+      document.getElementById("priority_lbl").style.visibility = "visible";
+
+      document.getElementById("student").setAttribute("data-name", "student");
+      document.getElementById("student").setAttribute("aria-required", "true");
+      document.getElementById("student").style.visibility = "visible";
+      document.getElementById("student_lbl").style.visibility = "visible";
+
+      // var formElement = document.querySelector(".e-schedule-form");
+      // var validator = formElement.ej2_instances[0];
+      // validator.addRules("priority", { required: [true, "Required field"] });
+      // validator.addRules("student", { required: [true, "Required field"] });
+    }
+
+    if (e.target.value === "Break") {
+      // var formElement = document.querySelector(".e-schedule-form");
+      // var validator = formElement.ej2_instances[0];
+      // validator.addRules("priority", { required: [false, "Required field"] });
+      // validator.addRules("student", { required: [false, "Required field"] });
+
+      console.log(document.getElementById("priority").style.display);
+      document.getElementById("priority").setAttribute("data-name", "");
+      document
+        .getElementById("priority")
+        .setAttribute("aria-required", "false");
+      document.getElementById("priority_row").style.visibility = "hidden";
+      document.getElementById("priority_lbl").style.visibility = "hidden";
+
+      document.getElementById("student").setAttribute("data-name", "");
+      document.getElementById("student").setAttribute("aria-required", "false");
+      document.getElementById("student").style.visibility = "hidden";
+      document.getElementById("student_lbl").style.visibility = "hidden";
+    }
+  }
+
+  handleChange(args) {
+    if (RecurrenceRule.getRead()) {
+      RecurrenceRule.setRecurrenceRule(args.value);
+    }
+  }
   editorTemplate(props) {
-    // TODO: Template containing:
-    //        1. Subject (Break, Session)
-    //        2. Priority
-    //        3. Timeslot (Pre-selected)
-    //        4. If session, enter student (Must add to API)
     return props !== undefined ? (
       <table
         className="custom-event-editor"
@@ -130,46 +268,76 @@ export default class CounselorSchedule extends React.Component {
             <td style={{ colspan: "4" }}>
               <DropDownListComponent
                 id="subject"
+                name="subject"
                 placeholder="What are you planning?"
                 data-name="subject"
-                className="e-field"
+                className="e-field e-input e-error e-subject"
                 style={{ width: "100%" }}
-                dataSource={["Break", "Session"]}
-                // TODO onChange (Change form once selection is made)
-                required
+                dataSource={["Session", "Break"]}
+                onChange={this.handleSubjectSelection}
               ></DropDownListComponent>
             </td>
           </tr>
+
           <tr>
-            <td className="e-textlabel">Priority</td>
-            <td style={{ colspan: "4" }}>
+            <td
+              className="e-textlabel"
+              id="priority_lbl"
+              style={{ visibility: "hidden" }}
+            >
+              Priority
+            </td>
+            <td
+              style={{ colspan: "4", visibility: "hidden" }}
+              id="priority_row"
+            >
               <DropDownListComponent
                 id="priority"
                 placeholder="How urgent is your situation?"
                 data-name="priority"
-                className="e-field"
+                name="priority"
+                className="e-field e-input e-error e-subject"
                 style={{ width: "100%" }}
                 dataSource={["NORMAL", "INTERMEDIATE", "URGENT"]}
-                required
               ></DropDownListComponent>
             </td>
           </tr>
-
           <tr>
-            <td className="e-textlabel">Type</td>
-            <td style={{ colspan: "4" }}>
+            <td
+              className="e-textlabel"
+              id="student_lbl"
+              style={{ visibility: "hidden" }}
+            >
+              Student ID
+            </td>
+            <td style={{ colspan: "4", visibility: "hidden" }}>
               <input
-                disabled
-                id="subject"
-                className="e-field e-input"
-                type="text"
-                name="subject"
-                value="Session"
-                style={{ width: "100%" }}
+                id="student"
+                className="e-field e-input e-error"
+                aria-required="true"
+                aria-invalid="true"
+                type="number"
+                name="studentId"
+                data-name="studentId"
+                style={{
+                  width: "100%",
+                  marginLeft: "1.6rem",
+                  marginBottom: "1.6rem",
+                }}
               />
             </td>
           </tr>
-
+          <tr>
+            <td colSpan={4}>
+              <RecurrenceEditorComponent
+                style={{ width: "100%" }}
+                frequencies={["none", "daily", "weekly"]}
+                change={this.handleChange}
+                ref={(recurrObject) => (this.recurrObject = recurrObject)}
+                id="RecurrenceEditor"
+              />
+            </td>
+          </tr>
           <tr style={{ height: "60px" }}></tr>
 
           <tr>
@@ -206,9 +374,26 @@ export default class CounselorSchedule extends React.Component {
   }
 
   eventTemplate(props) {
-    // TODO: Event template containing:
-    //       1. Subject (Session or Break)
-    //       2. Priority (if subject is Session)
+    if (props.subject === "Session") {
+      return (
+        <div className="template-wrap">
+          <div className="subject" style={{ background: props.PrimaryColor }}>
+            {props.subject}
+          </div>
+          <div className="subject" style={{ background: props.PrimaryColor }}>
+            {" (" + props.priority + ")"}
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="template-wrap">
+          <div className="subject" style={{ background: props.PrimaryColor }}>
+            {props.subject}
+          </div>
+        </div>
+      );
+    }
   }
 
   async processSelect(e) {
@@ -241,8 +426,9 @@ export default class CounselorSchedule extends React.Component {
         <ScheduleComponent
           actionBegin={this.onActionBegin.bind(this)}
           eventRendered={this.onEventRendered.bind(this)}
-          popupOpen={this.onPopupOpen.bind(this)}
           editorTemplate={this.editorTemplate.bind(this)}
+          popupOpen={this.onPopupOpen.bind(this)}
+          showQuickInfo={false}
           timeScale={{ enable: true, interval: 40, slotCount: 1 }}
           ref={(t) => (this.scheduleObj = t)}
           showWeekend={false}
@@ -263,9 +449,11 @@ export default class CounselorSchedule extends React.Component {
               endTime: { name: "endTime" },
               priority: { name: "priority" },
               recurrenceRule: { name: "recurrenceRule" },
+              counselorId: { name: "counselorId" },
+              studentId: { name: "studentId" },
             },
             template: this.eventTemplate.bind(this),
-            //   allowEditing: false,
+            // allowEditing: false,
             //   allowAdding: false,
             //   allowDeleting: false,
           }}

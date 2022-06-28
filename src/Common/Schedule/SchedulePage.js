@@ -10,11 +10,7 @@ import TopNav from "../../Student/Navigation/TopNav/TopNav";
 import Footer from "../Authentication/Footer/footer";
 
 export const SchedulePage = () => {
-  const [dataSource, setDataSource] = useState([]);
   const [redirect, setRedirect] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [selection, setSelection] = useState(36);
-  const [counselors, setCounselors] = useState([]);
 
   useEffect(() => {
     isAuthenticated();
@@ -25,15 +21,12 @@ export const SchedulePage = () => {
       UserProfile.getRole() !== "STUDENT" &&
       UserProfile.getRole() !== "COUNSELOR"
     ) {
-      setRedirect("/home");
+      setRedirect("/login");
     }
   };
 
   if (redirect !== null) {
-    <Redirect to={redirect} />;
-  }
-  if (loading === true) {
-    return <div></div>;
+    return <Redirect to={redirect} />;
   }
   return (
     <>
