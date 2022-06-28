@@ -50,7 +50,7 @@ const App = () => {
               <Route path="/schedule" exact>
                 <SchedulePage />
               </Route>
-              <Route path="/moreInfo" exact>
+              <Route path="/eventInfo" exact>
                 <MoreInfoPage />
               </Route>
               <Route path="/addevent" exact>
