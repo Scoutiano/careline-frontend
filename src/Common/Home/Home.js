@@ -3,7 +3,7 @@ import TopNav from "../../Student/Navigation/TopNav/TopNav";
 import Announcement from "../Announcements/Announcement";
 import Footer from "../Authentication/Footer/footer";
 import Card from "../Card/Card";
-import styles from './Home.module.css';
+import styles from "./Home.module.css";
 
 export const Home = () => {
   return (
@@ -19,5 +19,4 @@ export const Home = () => {
       </div> */}
     </div>
   );
-
 };
