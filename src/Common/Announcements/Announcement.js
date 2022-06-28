@@ -13,7 +13,6 @@ const Announcement = () => {
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
-    isAuthenticated();
     fetchData();
   }, []);
 
