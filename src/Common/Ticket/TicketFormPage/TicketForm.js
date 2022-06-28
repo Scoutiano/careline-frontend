@@ -5,8 +5,10 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { Redirect } from "react-router-dom";
 import SideBar from "../../../Student/Navigation/Sidebar/SideBar";
 import TopNav from "../../../Student/Navigation/TopNav/TopNav";
+import UserProfile from "../../Authentication/UserProfile";
 
 const TicketForm = () => {
+  const [redirect, setRedirect] = new useState(null);
   const [ticket, setTicket] = new useState({
     title: null,
     content: null,
@@ -15,6 +17,18 @@ const TicketForm = () => {
 
   const [ticketId, setTicketId] = new useState(-1);
 
+  useEffect(() => {
+    isAuthenticated();
+  }, []);
+
+  const isAuthenticated = () => {
+    if (UserProfile.getRole() !== "STUDENT") {
+      setRedirect("/home");
+      if (UserProfile.getRole() === null) {
+        setRedirect("/login");
+      }
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -38,6 +52,9 @@ const TicketForm = () => {
       });
   };
 
+  if (redirect !== null) {
+    return <Redirect to={redirect} />;
+  }
   if (ticketId !== -1) {
     return <Redirect to={"ticket?id=" + ticketId} />;
   }
