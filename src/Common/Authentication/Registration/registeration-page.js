@@ -9,7 +9,7 @@ class RegistrationPage extends React.Component {
       <div id="registration-page-container">
         <HeaderLogin />
         <RegistrationForm />
-        <Footer />
+        {/* <Footer /> */}
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
-
+import styles from "../Login/LoginForm.module.css";
 class RegistrationForm extends React.Component {
   constructor(props) {
     super(props);
@@ -103,7 +103,7 @@ class RegistrationForm extends React.Component {
 
                 <p id="login-error">{this.state.errorMsg}</p>
 
-                <button type="submit" class="btn btn-primary btn-block mb-4">
+                <button type="submit" className={styles.buttonStyle}>
                   Register
                 </button>
               </form>

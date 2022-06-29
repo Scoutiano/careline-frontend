@@ -99,7 +99,9 @@ const EventForm = (props) => {
                     type="text"
                     placeholder="title"
                     required
-                    value={event.eventTitle === null ? "" : event.eventTitle}
+                    defaultValue={
+                      event.eventTitle === null ? "" : event.eventTitle
+                    }
                   >
                     {/* {event.eventTitle} */}
                   </Form.Control>
@@ -109,13 +111,11 @@ const EventForm = (props) => {
                   <Form.Control
                     as="textarea"
                     rows={3}
-                    required
-                    value={
+                    defaultValue={
                       event.eventDetails === null ? "" : event.eventDetails
                     }
-                  >
-                    {/* {event.eventDetails} */}
-                  </Form.Control>
+                    contentEditable={true}
+                  ></Form.Control>
                 </Form.Group>
                 <DateTimePickerComponent
                   step={10}
@@ -123,10 +123,8 @@ const EventForm = (props) => {
                   id="dateDP"
                   placeholder="When is this event happening?"
                   required
-                  value={event.eventDate === null ? "" : event.eventDate}
-                >
-                  {/* {event.eventDate} */}
-                </DateTimePickerComponent>
+                  defaultValue={event.eventDate === null ? "" : event.eventDate}
+                ></DateTimePickerComponent>
                 <Button variant="primary" type="submit">
                   Submit Event
                 </Button>

@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
 import UserProfile from "../UserProfile";
-
+import styles from "./LoginForm.module.css";
 class LoginForm extends React.Component {
   constructor(props) {
     super(props);
@@ -92,9 +92,9 @@ class LoginForm extends React.Component {
                 </div>
 
                 <p id="login-error">{this.state.errorMsg}</p>
-
-                <button type="submit" class="btn btn-primary btn-block mb-4">
-                  Sign in
+                {/* {"btn btn-primary btn-block mb-4 "} */}
+                <button type="submit" className={styles.buttonStyle} >
+                  Log in
                 </button>
 
                 <div class="text-center">

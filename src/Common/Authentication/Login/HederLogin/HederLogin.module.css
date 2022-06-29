@@ -1,11 +1,11 @@
-
 .careLine {
-    font-size: 10rem;
+    font-size: 50px;
     margin: 3px;
     color: cornsilk;
-    background-color: rgb(153, 153, 224,40%);
+    background-color: rgb(153, 153, 224, 40%);
     border-radius: 30px;
     padding: 20px;
+
 }
 
 
@@ -15,4 +15,5 @@
     column-gap: 30px;
     justify-content: center;
     padding: 50px;
+    padding-bottom: 0px;
 }

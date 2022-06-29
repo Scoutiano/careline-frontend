@@ -28,9 +28,9 @@ const TopNav = () => {
       {/* collapseOnSelect */}
       <Navbar className={styles.navtop}>
         {/* <div > */}
-        <div className={styles.sidebarStyle}>
-          <SideBar />
-        </div>
+        {/* <div className={styles.sidebarStyle}> */}
+        <SideBar />
+        {/* </div> */}
         <Link to="/home">
           <p className={styles.careLine}>CareLine</p>
         </Link>

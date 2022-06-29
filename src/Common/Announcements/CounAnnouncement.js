@@ -9,12 +9,7 @@ import UserProfile from "../Authentication/UserProfile";
 import { Link } from "react-router-dom";
 
 const CounAnnouncement = (props) => {
-  const updateEventStatus = () => {};
-
   const [events, setEvents] = useState([]);
-  const [redirect, setRedirect] = useState(null);
-  const [editMode, setEditMode] = useState(null);
-  const [editBtn, setEditBtn] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
