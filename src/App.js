@@ -53,7 +53,7 @@ const App = () => {
               <Route path="/eventInfo" exact>
                 <MoreInfoPage />
               </Route>
-              <Route path="/addevent" exact>
+              <Route path="/addEvent" exact>
                 <EventForm />
               </Route>
             </div>

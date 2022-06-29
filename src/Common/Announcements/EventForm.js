@@ -8,43 +8,83 @@ import TopNav from "../../Student/Navigation/TopNav/TopNav";
 import DateTimePicker from "react-datetime-picker";
 import { DateTimePickerComponent } from "@syncfusion/ej2-react-calendars";
 import CounselorSchedule from "../Schedule/CounselorSchedule";
+import { useLocation } from "react-router-dom";
 
-const EventForm = () => {
+const EventForm = (props) => {
   const [event, setEvent] = new useState({
     eventTitle: null,
     eventDetails: null,
     eventDate: null,
   });
 
-  const [eventId, setEventId] = new useState(-1);
+  const location = useLocation();
+
+  const [eventId, setEventId] = useState(-1);
+
+  useEffect(() => {
+    console.log("State: ", location.state);
+    if (location.state.editMode) {
+      const fetchData = async () => {
+        const { data } = await axios.get("/event/" + location.state.eventId);
+        setEvent(data);
+        console.log("event ", event);
+      };
+
+      console.log(event);
+      fetchData();
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    event.eventTitle = e.target.TitleTF.value;
-    event.eventDetails = e.target.ContentTA.value;
-    event.eventDate = e.target.dateDP.value;
+    if (location.state.editMode === undefined) {
+      event.eventTitle = e.target.TitleTF.value;
+      event.eventDetails = e.target.ContentTA.value;
+      event.eventDate = e.target.dateDP.value;
 
-    console.log(event);
-    axios({
-      method: "post",
-      url: "/event",
-      data: event,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        setEventId(response.data.id);
+      console.log(event);
+      axios({
+        method: "post",
+        url: "/event",
+        data: event,
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
-      .catch((error) => {
-        console.log(error);
-      });
+        .then((response) => {
+          setEventId(response.data.id);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      event.eventTitle = e.target.TitleTF.value;
+      event.eventDetails = e.target.ContentTA.value;
+      event.eventDate = e.target.dateDP.value;
+
+      console.log(event);
+      axios({
+        method: "put",
+        url: "/event/" + event.id,
+        data: event,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          setEventId(response.data.id);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   if (eventId !== -1) {
     return <Redirect to={"/eventInfo?id=" + eventId} />;
   }
+
   return (
     <>
       <TopNav />
@@ -54,18 +94,39 @@ const EventForm = () => {
             <Col className="p-5">
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3" controlId="TitleTF">
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control type="text" placeholder="title"></Form.Control>
+                  <Form.Label>Event Title</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="title"
+                    required
+                    value={event.eventTitle === null ? "" : event.eventTitle}
+                  >
+                    {/* {event.eventTitle} */}
+                  </Form.Control>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="ContentTA">
                   <Form.Label>Content</Form.Label>
-                  <Form.Control as="textarea" rows={3} />
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    required
+                    value={
+                      event.eventDetails === null ? "" : event.eventDetails
+                    }
+                  >
+                    {/* {event.eventDetails} */}
+                  </Form.Control>
                 </Form.Group>
                 <DateTimePickerComponent
                   step={10}
                   format="yyyy-MM-dd HH:mm"
                   id="dateDP"
-                ></DateTimePickerComponent>
+                  placeholder="When is this event happening?"
+                  required
+                  value={event.eventDate === null ? "" : event.eventDate}
+                >
+                  {/* {event.eventDate} */}
+                </DateTimePickerComponent>
                 <Button variant="primary" type="submit">
                   Submit Event
                 </Button>

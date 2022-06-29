@@ -5,33 +5,38 @@ import Announcement from "../Announcements/Announcement";
 import styles from "./Home.module.css";
 import UserProfile from "../Authentication/UserProfile";
 import CounAnnouncement from "../Announcements/CounAnnouncement";
+import { Redirect } from "react-router-dom";
 
 const Home = () => {
-  const [isCoun, setIsCoun] = useState("");
+  const [redirect, setRedirect] = useState(null);
+
   const isAuthenticated = () => {
-    console.log(UserProfile.getRole());
-    if (UserProfile.getRole() === "COUNSELOR") {
-      setIsCoun(true);
+    if (UserProfile.getRole() === null) {
+      setRedirect("/login");
     }
   };
 
-  const updateRole = () => {
-    setIsCoun(isCoun);
-  }
   useEffect(() => {
-    updateRole();
-  }, [setIsCoun])
+    isAuthenticated();
+  }, []);
+
+  if (redirect !== null) {
+    return <Redirect to={redirect} />;
+  }
+
   return (
     <div class={styles.mainContainer}>
       <div className={styles.headerContainer}>
         <TopNav />
       </div>
       <div className={styles.middleContainer}>
-        {isCoun ? <CounAnnouncement /> : <Announcement />}
-
+        {UserProfile.getRole() === "COUNSELOR" ? (
+          <CounAnnouncement />
+        ) : (
+          <Announcement />
+        )}
       </div>
-
     </div>
   );
-}
+};
 export default Home;
